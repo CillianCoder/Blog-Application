@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
 
 const Component = styled(Box)`
@@ -20,25 +21,70 @@ const Wrapper = styled(Box)`
   flex: 1;
   flex-direction: column;
   & > div,
-  & > button {
+  & > button,
+  & p {
     margin-bottom: 20px;
   }
+`;
+
+const LoginButton = styled(Button)`
+  text-transform: none;
+  background: #fb641b;
+  color: #fff;
+  height: 48px;
+  border-radius: 2px;
+`;
+
+const SignupButton = styled(Button)`
+  text-transform: none;
+  background: #fff;
+  color: #2874f0;
+  height: 48px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 20%);
+`;
+
+const Text = styled(Typography)`
+  color: #878787;
+  font-size: 16px;
 `;
 
 const Login = () => {
   const imgURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
+
+  const [account, toggleAccount] = useState("login");
+
+  const toggleSignup = () => {
+    account === "signup" ? toggleAccount("login") : toggleAccount("signup");
+  };
+
   return (
     <Component>
       <Box>
         <Image src={imgURL} alt="login" />
-        <Wrapper>
-          <TextField variant="standard" />
-          <TextField variant="standard" />
-          <Button variant="contained">Login</Button>
-          <Typography>OR</Typography>
-          <Button>Create an account</Button>
-        </Wrapper>
+        {account === "login" ? (
+          <Wrapper>
+            <TextField variant="standard" label="Enter Username" />
+            <TextField variant="standard" label="Enter Password" />
+            <LoginButton variant="contained">Login</LoginButton>
+            <Text style={{ textAlign: "center" }}>OR</Text>
+            <SignupButton onClick={() => toggleSignup()}>
+              Create an account
+            </SignupButton>
+          </Wrapper>
+        ) : (
+          <Wrapper>
+            <TextField variant="standard" label="Enter Name" />
+            <TextField variant="standard" label="Enter Username" />
+            <TextField variant="standard" label="Enter Password" />
+            <SignupButton>Signup</SignupButton>
+            <Text style={{ textAlign: "center" }}>OR</Text>
+            <LoginButton variant="contained" onClick={() => toggleSignup()}>
+              Already have an account
+            </LoginButton>
+          </Wrapper>
+        )}
       </Box>
     </Component>
   );
